@@ -11,7 +11,7 @@ In this project, **the goal is to train an agent to navigate a virtual world and
 
 ### About Deep Reinforcement Learning
 
-This project implement a Value Based method called [Deep Q-Networks](https://deepmind.com/research/dqn/)
+This project implement a Value Based method called [Deep Q-Networks](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf)
 
 ### Environment details
 
@@ -48,13 +48,14 @@ The task is episodic, and in order to solve the environment, the agent must get 
     
 - Finally, unzip the environment archive in the 'project's environment' directory and eventually adjust thr path to the UnityEnvironment in the code.
 
-
     
 ### Train a agent
     
-Execute the provided notebook within this Nanodegree Udacity Online Workspace for "project #1  Navigation" (or build your own local environment and make necessary adjustements for the path to the UnityEnvironment in the code )
+Execute the provided notebook within this Repository, using the Nanodegree Udacity Online Workspace for "project #1  Navigation" (or build your own local environment and make necessary adjustements for the path to the UnityEnvironment in the code )
 
 ### Misc : Configuration used 
 
 This agent has been trained on a local PC with Ubuntu 20.04.4
 ![local_pc](./images/Local_pc.png)
+
+
