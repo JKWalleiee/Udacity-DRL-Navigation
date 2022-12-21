@@ -42,7 +42,8 @@ The implementation in this Repository includes the 2 major training improvements
 - Experience Replay 
 - Fixed Q Targets
 
-> BORRAR
+- Prioritized Experience Re-play: Deep Q-Learning samples experience transitions uniformly from a replay memory. Without this improvement, the correlation problem between actions and states severely impairs the DQN training.
+- Fixed Q Targets: Using two DQNs instead of one, this method keeps the target values of one network (called the target network) fixed and periodically updates the network weights. This improvement combats the problem of correlation between the weights updates and the Q value updates.
 
 ### Algorithm
 
