@@ -32,36 +32,34 @@ The task is episodic, and **in order to solve the environment, the agent must ge
 
 ### Deep Q-Networks
 
-This project implements a *Value Based* method called [Deep Q-Networks](https://deepmind.com/research/dqn/). 
+This project implements a *Value Based* method called [Deep Q-Networks](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf). 
 
 Deep Q Learning combines 2 approaches :
 - A Reinforcement Learning method called [Q Learning](https://en.wikipedia.org/wiki/Q-learning) (aka SARSA max)
 - A Deep Neural Network to learn a Q-table approximation (action-values)
 
-Especially, this implementation includes the 2 major training improvements by [Deepmind](https://deepmind.com) and described in their [Nature publication : "Human-level control through deep reinforcement learning (2015)"](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf)
+The implementation in this Repository includes the 2 major training improvements described in the paper [Deep Q-Networks](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf).
 - Experience Replay 
 - Fixed Q Targets
 
-> Reinforcement learning is known to be unstable or even to diverge when a nonlinear function approximator such as a neural network is used to represent the action-value (also known as Q) function20. This instability has several causes: the correlations present in the sequence of observations, the fact that small updates to Q may significantly change the policy and therefore change the data distribution, and the correlations
-between the action-values and the target values .
-We address these instabilities with a novel variant of Q-learning, which uses two key ideas. First, we used a biologically inspired mechanism termed experience replay that randomizes over the data, thereby removing correlations in the observation sequence and smoothing over changes in the data distribution. Second, we used an iterative update that adjusts the action-values towards target values that are only periodically updated, thereby reducing correlations with the target.
+> BORRAR
 
 ### Algorithm
 
 ![Deep Q-Learning algorithm from Udacity course](./images/DQN.png)
 
-This algorithm screenshot is taken from the [Deep Reinforcement Learning Nanodegree course](https://www.udacity.com/course/deep-reinforcement-learning-nanodegree--nd893)
+This algorithm screenshot is taken from the [Deep Reinforcement Learning Nanodegree course](https://learn.udacity.com/nanodegrees/nd893)
 
 
 ### Code implementation
 
-The code used here is derived from the "Lunar Lander" tutorial from the [Deep Reinforcement Learning Nanodegree](https://www.udacity.com/course/deep-reinforcement-learning-nanodegree--nd893), and has been slightly adjusted for being used with the banana environment.
+The code used here is derived from the "Lunar Lander" tutorial from the [Deep Reinforcement Learning Nanodegree](https://learn.udacity.com/nanodegrees/nd893), and has been slightly adjusted for being used with the banana environment.
 
 The code consist of :
 
 - model.py : In this python file, a PyTorch QNetwork class is implemented. This is a regular fully connected Deep Neural Network using the [PyTorch Framework](https://pytorch.org/docs/0.4.0/). This network will be trained to predict the action to perform depending on the environment observed states. This Neural Network is used by the DQN agent and is composed of :
   - the input layer which size depends of the state_size parameter passed in the constructor
-  - 2 hidden fully connected layers of 1024 cells each
+  - 2 hidden fully connected layers of 64 cells each
   - the output layer which size depends of the action_size parameter passed in the constructor
 - dqn_agent.py : In this python file, a DQN agent and a Replay Buffer memory used by the DQN agent) are defined.
   - The DQN agent class is implemented, as described in the Deep Q-Learning algorithm. It provides several methods :
@@ -80,7 +78,7 @@ The code consist of :
 - DQN_Banana_Navigation.ipynb : This Jupyter notebooks allows to train the agent. More in details it allows to :
   - Import the Necessary Packages 
   - Examine the State and Action Spaces
-  - Take Random Actions in the Environment (No display)
+  - Take Random Actions in the Environment
   - Train an agent using DQN
   - Plot the scores
 
@@ -91,7 +89,7 @@ The DQN agent uses the following parameters values (defined in dqn_agent.py)
 ```
 BUFFER_SIZE = int(1e5)  # replay buffer size
 BATCH_SIZE = 64         # minibatch size 
-GAMMA = 0.995           # discount factor 
+GAMMA = 0.99            # discount factor 
 TAU = 1e-3              # for soft update of target parameters
 LR = 5e-4               # learning rate 
 UPDATE_EVERY = 4        # how often to update the network
@@ -100,7 +98,7 @@ UPDATE_EVERY = 4        # how often to update the network
 The Neural Networks use the following architecture :
 
 ```
-Input nodes (37) -> Fully Connected Layer (1024 nodes, Relu activation) -> Fully Connected Layer (1024 nodes, Relu activation) -> Ouput nodes (4)
+Input nodes (37) -> Fully Connected Layer (64 nodes, Relu activation) -> Fully Connected Layer (64 nodes, Relu activation) -> Ouput nodes (4)
 ```
 
 The Neural Networks use the Adam optimizer with a learning rate LR=5e-4 and are trained using a BATCH_SIZE=64
@@ -111,7 +109,7 @@ Given the chosen architecture and parameters, our results are :
 
 ![Score evolution during the training](images/score_plot.png)
 
-**These results meets the project's expectation as the agent is able to receive an average reward (over 100 episodes) of at least +13, and in 1023 episodes only** (In comparison, according to Udacity's solution code for the project, their agent was benchmarked to be able to solve the project in fewer than 1800 episodes)
+**These results meets the project's expectation as the agent is able to receive an average reward (over 100 episodes) of at least +13, and in 409 episodes only**. After this step, it is possible to disable the early stop (when the pipeline achieve the reward of 13) and allow the pipeline to continue training for better reward.
 
 ### Ideas for future work
 
@@ -129,8 +127,8 @@ Other enhancements might also be implemented to increase the performance of the 
 > Experience replay lets online reinforcement learning agents remember and reuse experiences from the past. In prior work, experience transitions were uniformly sampled from a replay memory. However, this approach simply replays transitions at the same frequency that they were originally experienced, regardless of their significance. In this paper we develop a framework for prioritizing experience, so as to replay important transitions more frequently, and therefore learn more efficiently. We use prioritized experience replay in Deep Q-Networks (DQN), a reinforcement learning algorithm that achieved human-level performance across many Atari games. DQN with prioritized experience replay achieves a new state-of-the-art, outperforming DQN with uniform replay on 41 out of 49 games.
 
 
+
 ### Misc : Configuration used 
 
-This agent has been trained on the Udacity provided online workspace. This environment allows to use a Nvidia K80 GPU that is used for the training. (The headless / no visualization version of the Unity environment was thus used)
-
-My setup is a "Deep Learning Dev Box", and is basically a Linux GPU Server, running Docker containers (using Nvidia Docker 2), serving Jupyter Lab notebooks which are accessed remotely via a web interface (or a ssh connection) : unfortunately this setup does not seem suitable to run Unity ML agent, with the GPU and providing a display for for the agent (See [Unity docuementation](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Using-Docker.md) for more details)
+This agent has been trained on a local PC with Ubuntu 20.04.4
+![local_pc](./images/Local_pc.png)
